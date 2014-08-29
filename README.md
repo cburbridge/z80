@@ -1,7 +1,7 @@
 ## Z80 CPU Emulator
 
 This is a Zilog Z80 CPU emulator, written in Python. 
-It runs a 1978 Microsoft Basic 4.7 ROM taken from [Grant Searle's Z80 SBC project][http://searle.hostei.com/grant/z80/SimpleZ80.html]
+It runs a 1978 Microsoft Basic 4.7 ROM taken from [Grant Searle's Z80 SBC project](http://searle.hostei.com/grant/z80/SimpleZ80.html)
 
 ### Why?
 Just for fun. I like the Z80 CPU - it was in many devices I played with as a
@@ -35,8 +35,8 @@ PYTHONPATH=`pwd`:$PYTHONPATH python ../fuse_tests/tests.py
 Most undocumented opcodes, undocumented flags for `CPI` and `CPIR`.
 
 ### Credits
-[Grant Searle's Z80 SBC project][http://searle.hostei.com/grant/z80/SimpleZ80.html]
-[FUSE - Free Unix Spectrum Emulator][http://fuse-emulator.sourceforge.net/] for the instruction set tests
+[Grant Searle's Z80 SBC project](http://searle.hostei.com/grant/z80/SimpleZ80.html)
+[FUSE - Free Unix Spectrum Emulator](http://fuse-emulator.sourceforge.net/) for the instruction set tests
 
 ### License
-Public domain; do what the like.  (Except fuse tests and BASIC rom)
+Public domain; do what you like.
