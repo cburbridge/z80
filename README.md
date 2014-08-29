@@ -14,6 +14,7 @@ probably don't use Python. That said, an optimised python coded emulator could r
 a lot faster than this :-)
 
 ### Running
+BASIC:
 ```
 cd src
 python z80sbc.py
@@ -32,10 +33,13 @@ PYTHONPATH=`pwd`:$PYTHONPATH python ../fuse_tests/tests.py
 ```
 
 ### Missing and todo
-Most undocumented opcodes, undocumented flags for `CPI` and `CPIR`.
+- Most undocumented opcodes
+- Undocumented flags for `CPI` and `CPIR`.
 
 ### Credits
+
 [Grant Searle's Z80 SBC project](http://searle.hostei.com/grant/z80/SimpleZ80.html)
+
 [FUSE - Free Unix Spectrum Emulator](http://fuse-emulator.sourceforge.net/) for the instruction set tests
 
 ### License
