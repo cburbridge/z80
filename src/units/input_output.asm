@@ -1,0 +1,25 @@
+IN A, (32H)
+IN B, (C)
+IN C, (C)
+IN D, (C)
+IN E, (C)
+IN F, (C)
+IN H, (C)
+IN L, (C)
+INI
+INIR
+IND
+INDR
+OUT (32H), A
+OUT (C), B
+OUT (C), C
+OUT (C), D
+OUT (C), E
+OUT (C), H
+OUT (C), L
+OUTI
+OTIR
+OUTD
+OTDR
+
+

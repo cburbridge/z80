@@ -1,0 +1,14 @@
+CPL 
+DAA
+NEG
+CCF
+SCF
+HALT
+DI
+EI
+NOP
+IM 0
+IM 1
+IM 2
+
+
