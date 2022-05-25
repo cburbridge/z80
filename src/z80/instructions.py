@@ -1,6 +1,6 @@
 import copy
 import logging
-from util import *
+from . util import *
 import sys
 
 class instruction(object):
@@ -63,9 +63,9 @@ class InstructionSet():
         for i in dir(self):
             f = getattr(self, i)
             if f.__class__ == Instruction:
-                print i, ":"
+                print (i, ":")
                 for o in f.opcode_args:
-                    print o
+                    print (o)
                     ff = copy.copy(f)
                     ff.registers = self._registers
                     ff.args = o[1]
@@ -86,7 +86,7 @@ class InstructionSet():
                         else:
                             opargs = ((o[0], ), o[1])
                     for n, i in enumerate(opargs[0][:-1]):
-                        if d.has_key(i):
+                        if i in d:
                             d = d[i]
                         elif i == "-":
                             ff.operands.append(n)
@@ -120,7 +120,7 @@ class InstructionSet():
         if self.is_two_parter(ins):
             return self._instructions[ins]
         else:
-            if self._instructions[0].has_key(ins): 
+            if ins in self._instructions[0]: 
                 return self._instructions[0][ins]
             raise AttributeError("Unknown opcode")
 
@@ -141,7 +141,7 @@ class InstructionSet():
         self._instruction_composer = []
         
     def is_two_parter(self, ins):
-        return self._instructions.has_key(ins)
+        return ins in self._instructions
 
     #----------------------------------------------------------------------
 

@@ -4,8 +4,9 @@ import copy
 
 from time import sleep, time
 import sys
-from PySide.QtCore import *
-from PySide.QtGui import *
+from PySide2.QtCore import *
+from PySide2.QtGui import *
+from PySide2.QtWidgets import *
 
 import threading
 
@@ -58,7 +59,7 @@ class Z80SBC(io.Interruptable):
             self.registers.IFF = False
             self._interrupted = False
             if self.registers.IM == 1:
-                print "!!! Interrupt  !!!"
+                print ("!!! Interrupt  !!!")
                 ins, args = self.instructions << 0xCD
                 ins, args = self.instructions << 0x38
                 ins, args = self.instructions << 0x00
@@ -102,7 +103,7 @@ if __name__ == '__main__':
         while True:
             # t = time()
             ins,  args =  mach.step_instruction()
-            print ins.assembler(args)
+            print (ins.assembler(args))
             sleep(0.00000001)
             # print (time() - t) / ins.tstates
             

@@ -3,8 +3,8 @@ import copy
 
 from time import sleep, time
 import sys
-from PySide.QtCore import *
-from PySide.QtGui import *
+from PySide2.QtCore import *
+from PySide2.QtGui import *
 
 import threading
 import os
@@ -32,7 +32,7 @@ class Z80Tester(io.Interruptable):
             self.registers.IFF = False
             self._interrupted = False
             if self.registers.IM == 1:
-                print "!!! Interrupt  !!!"
+                print ("!!! Interrupt  !!!")
                 ins, args = self.instructions << 0xCD
                 ins, args = self.instructions << 0x38
                 ins, args = self.instructions << 0x00
@@ -55,7 +55,7 @@ class Z80Tester(io.Interruptable):
                 address = i & 0xFF
                 #data[n] = self._iomap.address[address].read(address)
                 data[n] = self.registers.A 
-                print "Read IO ",
+                print ("Read IO "),
                 raise Exception("Skip.")
         wrt = ins.execute(data, args)
         for i in wrt:
@@ -65,14 +65,14 @@ class Z80Tester(io.Interruptable):
                 #iomap.address[address].write.emit(address, i[1])
                 #self._iomap.address[address].write(address, i[1])
                 #print (chr(i[1]))
-                print "Write IO ",
+                print ("Write IO "),
                 raise Exception("Skip.")
             else:
                 try:
                     self._memory[i[0]] = i[1]
                 except:
-                    print i
-                    print trace
+                    print (i)
+                    print (trace)
                     raise
         return  ins.tstates,  trace
 
@@ -131,9 +131,9 @@ if __name__ == '__main__':
                 base += 1
 
                 
-        print ": Test '%s' : "%(str(test_key)),
+        print (": Test '%s' : "%(str(test_key))),
         if test_key.startswith("27"):
-            print "SKIPPED"
+            print ("SKIPPED")
             continue
         trace = ""
         taken= 0
@@ -142,23 +142,23 @@ if __name__ == '__main__':
                 states, asm =  mach.step_instruction()
                 taken += states
                 trace += "%d/%d\t%d\t" % (taken, tstates, states) + asm
-        except Exception, e:
-            if e.message == "Can't decode instruction.":
-                print " - NO INSTRUCTION"
+        except Exception as e:
+            if e == "Can't decode instruction.":
+                print (" - NO INSTRUCTION")
                 mach.instructions.reset_composer()
                 continue
-            elif e.message == "Skip.":
-                print "Skipped."
+            elif e == "Skip.":
+                print ("Skipped.")
                 mach.instructions.reset_composer()
                 continue
             else:
-                print "FAULTY"
+                print ("FAULTY")
                 mach.instructions.reset_composer()
                 raise
             
         expected_lines = results.split('\n')
         if expected_lines[0] != test_key:
-            print "Test expectation mismatch"
+            print ("Test expectation mismatch")
             sys.exit(1)
         i = 1
         while expected_lines[i].startswith(" "):
@@ -203,14 +203,14 @@ if __name__ == '__main__':
             #if mach.registers.R != regs2[1]:
                 #raise Exception("Bad register")
             if mach.registers.IFF != (regs2[2] == "1"):
-                print "Bad interrups flag flop"
-                print regs2[2]
-                print mach.registers.IFF
+                print ("Bad interrups flag flop")
+                print (regs2[2])
+                print (mach.registers.IFF)
                 raise Exception("Bad register")
             if mach.registers.IFF2 != (regs2[3] == "1"):
-                print "Bad interrups flag flop"
-                print regs2[3]
-                print mach.registers.IFF2
+                print ("Bad interrups flag flop")
+                print (regs2[3])
+                print (mach.registers.IFF2)
                 raise Exception("Bad register")
             #if mach.registers.IFF2 != (regs2[3] == "1"):
                 #raise Exception("Bad register")
@@ -233,35 +233,36 @@ if __name__ == '__main__':
                     if mach._memory[base] != int(val, 16):
                         raise Exception("Memory mismatch")
                     base += 1
-        except Exception, e:
-            print "FAILED:",e.message
+        except Exception as e:
+            print ("FAILED:",e.message)
             fails += 1
             continue
-            print "TRACE:"
-            print trace
-            print
+            print ("TRACE:")
+            print (trace)
+            print ("")
             flags = ["S", "Z", "F5", "H", "F3", "PV", "N", "C"]
             s = ""
             for i, f in enumerate(flags):
                 s += f+':' + str((regs[0] >> (7 - i)) & 0x01) + ' '
-            print "\nTarget flags: ", s
+            print ("\nTarget flags: ", s)
             s = ""
             for i, f in enumerate(flags):
                 s += f+':' + str((mach.registers.F >> (7 - i)) & 0x01) + ' '
-            print "Actual flags: ", s
+            print ("Actual flags: ", s)
             print
-            print "--INITIAL--\n", t, "\n--TARGET--\n", results,"\n==--==\n"
+            print ("--INITIAL--\n", t, "\n--TARGET--\n", results,"\n==--==\n")
             regs =  ['PC', 'SP', 'I', 
                  'A', 'F', 'B', 'C', 
                  'D', 'E',  'H', 'L', 
                   'IFF']
             regsr = ['IX', 'IY', 'R','A_', 'F_', 'B_', 'C_','D_', 'E_','H_', 'L_', 'IM']
-            print "Registers:"
+            print ("Registers:")
             for rl, rr in zip(regs, regsr):
-                print rl, ": {0:X}".format( mach.registers[rl]), "\t\t", rr, ": {0:X}".format( mach.registers[rr])
+                print (rl, ": {0:X}".format( mach.registers[rl]), "\t\t", rr, ": {0:X}".format( mach.registers[rr]))
             raise
-        print "PASSED"
+        print ("PASSED")
         passes += 1
         
-    print "Failed:", fails
-    print "Passed:", passes
+    print ("Failed:", fails)
+    print ("Passed:", passes)
+    print ("Passed:", passes)

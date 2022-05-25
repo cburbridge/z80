@@ -68,7 +68,7 @@ class Registers(dict):
             self[attr] = val
 
     def __getattr__(self, reg):
-        if self.has_key(reg):
+        if reg in self:
             return self[reg]
         elif reg in ["HL", "AF", "BC", "DE"]:
             return self[reg[0]] << 8 |  self[reg[1]]
