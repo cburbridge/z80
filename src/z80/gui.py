@@ -1,10 +1,11 @@
 import sys
  
-from PySide.QtCore import *
-from PySide.QtGui import *
-from PySide.QtWebKit import * 
+from PySide2.QtCore import *
+from PySide2.QtGui import *
+from PySide2.QtWidgets import *
+from PySide2.QtWebEngineWidgets import * 
 
-from cStringIO import StringIO
+from io import StringIO
 
 class RegistersGUI(QWidget):
     _addresses = [0x80, 0x81]
@@ -136,7 +137,7 @@ class RegistersGUI(QWidget):
         vbox=QVBoxLayout()
         self.setLayout(vbox)
 
-        self._view = QWebView()
+        self._view = QWebEngineView(self)
         vbox.addWidget(self._view)
         
         
@@ -179,7 +180,7 @@ class MemoryView(QWidget):
         self._memory = memory
         self._registers = registers
         self._update_sgl.connect(self._update)
-        self._web_view = QWebView()
+        self._web_view = QWebEngineView(self)
         vbox = QVBoxLayout()
         self.setLayout(vbox)
         
