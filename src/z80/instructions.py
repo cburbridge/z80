@@ -538,7 +538,7 @@ class InstructionSet():
             registers.condition.N = 0
             registers.condition.F3 = (registers.A + data[0]) & 0x08
             registers.condition.F5 = (registers.A + data[0]) & 0x02
-            return [(de_, data[0])]
+            return [(de, data[0])]
 
     @instruction([(0xEDB0, ())], 0, "LDIR", 21)
     def ldir(instruction, registers, get_reads, data):
@@ -572,7 +572,7 @@ class InstructionSet():
             registers.condition.N = 0
             registers.condition.F3 = (registers.A + data[0]) & 0x08
             registers.condition.F5 = (registers.A + data[0]) & 0x02
-            return [(de_, data[0])]
+            return [(de, data[0])]
 
 
     @instruction([(0xEDA8, ())], 0, "LDD", 16)
@@ -604,7 +604,7 @@ class InstructionSet():
             registers.condition.N = 0
             registers.condition.F3 = (registers.A + data[0]) & 0x08
             registers.condition.F5 = (registers.A + data[0]) & 0x02
-            return [(de_, data[0])]
+            return [(de, data[0])]
 
     @instruction([(0xEDB8, ())], 0, "LDDR", 16)
     def lddr(instruction, registers, get_reads, data):
@@ -638,7 +638,7 @@ class InstructionSet():
             registers.condition.N = 0
             registers.condition.F3 = (registers.A + data[0]) & 0x08
             registers.condition.F5 = (registers.A + data[0]) & 0x02
-            return [(de_, data[0])]
+            return [(de, data[0])]
 
 
     @instruction([(0xEDA1, ())], 0, "CPI", 16)
