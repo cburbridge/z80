@@ -281,6 +281,18 @@ def shift_right(registers, n):
     return v
 
 
+def shift_right_logical(registers, n):
+    c = n & 0x01
+    v = n >> 1
+    registers.condition.S = 0
+    registers.condition.Z = (v == 0)
+    registers.condition.H = 0
+    registers.condition.N = 0
+    registers.condition.PV = parity(v)
+    registers.condition.C = c
+    return v
+
+
 def offset_pc(registers, jump):
     registers.PC += get_8bit_twos_comp(jump)
     if registers.PC > 0xFFFF:
