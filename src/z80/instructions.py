@@ -1956,7 +1956,7 @@ class InstructionSet():
                  2, "IN {0}, (C)", 12)
     def in_r_c(instruction, registers, get_reads, data, r):
         if get_reads:
-            address = registers[r] | (registers.B << 8) #n | (registers.A << 8)
+            address = registers.C | (registers.B << 8) #n | (registers.A << 8)
             return [address+0x10000]
         else:
             registers.condition.S = data[0] & 0x80
@@ -1966,7 +1966,7 @@ class InstructionSet():
             registers.condition.N = 0
             if r == "F":
                 return []
-            #registers[r] = data[0]
+            registers[r] = data[0]
             return []
         
     @instruction([([0xed, 0xa2], ( )) ] ,
