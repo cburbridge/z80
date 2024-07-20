@@ -134,6 +134,7 @@ class InstructionSet():
         else:
             ops = tuple(self._instruction_composer)
             self._instruction_composer = []
+            self._registers.R = ((self._registers.R + 1) & 0x7F) | (self._registers.R & 0x80)
 #            print q, ops
             return q, ops
         
