@@ -268,6 +268,18 @@ def shift_left(registers, n):
     return v
 
 
+def shift_left_logical(registers, n):
+    c = n >> 7
+    v = ((n << 1 ) & 0xFF) | 0x01
+    registers.condition.S = v >> 7
+    registers.condition.Z = (v == 0)
+    registers.condition.H = 0
+    registers.condition.N = 0
+    registers.condition.PV = parity(v)
+    registers.condition.C = c
+    return v
+
+
 def shift_right(registers, n):
     c = n & 0x01
     msb = n >> 7

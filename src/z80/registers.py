@@ -64,6 +64,10 @@ class Registers(dict):
         if attr  in ["HL", "AF", "BC", "DE"]:
             self[attr[0]] = val >> 8
             self[attr[1]] = val &  0xFF
+        elif attr in ["IXH", "IYH"]:
+            self[attr[0:2]] = (self[attr[0:2]] & 0x00FF) | (val << 8)
+        elif attr in ["IXL", "IYL"]:
+            self[attr[0:2]] = (self[attr[0:2]] & 0xFF00) | val
         else:
             self[attr] = val
 
@@ -72,17 +76,21 @@ class Registers(dict):
             return self[reg]
         elif reg in ["HL", "AF", "BC", "DE"]:
             return self[reg[0]] << 8 |  self[reg[1]]
+        elif reg in ["IXH", "IYH"]:
+            return self[reg[0:2]] >> 8
+        elif reg in ["IXL", "IYL"]:
+            return self[reg[0:2]] & 0xFF
         else:
             raise AttributeError("%s Not a known register."%reg)
         
     def __getitem__(self, reg):
-        if reg in ["BC", "HL", "DE", "AF"]:
+        if reg in ["BC", "HL", "DE", "AF", "IXH", "IXL", "IYH", "IYL"]:
             return getattr(self, reg)
         else:
             return super(Registers, self).__getitem__(reg)
         
     def __setitem__(self, reg, val):
-        if reg in ["BC", "HL", "DE", "AF"]:
+        if reg in ["BC", "HL", "DE", "AF", "IXH", "IXL", "IYH", "IYL"]:
             return setattr(self, reg, val)
         else:
             return super(Registers, self).__setitem__(reg, val)
