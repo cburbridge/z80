@@ -1563,6 +1563,42 @@ class InstructionSet():
             set_f5_f3(registers, val)
             return [(registers[i] + get_8bit_twos_comp(d), val)]
         
+
+    # SRL m
+    @instruction([([0xCB, 0x38], ("B", )), ([0xCB, 0x39], ("C", )), ([0xCB, 0x3A], ("D", )),
+                  ([0xCB, 0x3B], ("E", )), ([0xCB, 0x3C], ("H", )), ([0xCB, 0x3D], ("L", )),
+                  ([0xCB, 0x3F], ("A", ))],
+                 2, "SRL {0}", 8)
+    def srl_r(instruction, registers, get_reads, data, r):
+        if get_reads:
+            return []
+        else:
+            registers[r] = shift_right_logical(registers, registers[r])
+            set_f5_f3(registers, registers[r])
+            return []
+        
+    @instruction([([0xCB, 0x3E], ())],
+                 2, "SRL (HL)", 15)
+    def srl_hl(instruction, registers, get_reads, data):
+        if get_reads:
+            return [registers.HL]
+        else:
+            val = shift_right_logical(registers, data[0])
+            set_f5_f3(registers, val)
+            return [(registers.HL, val)]
+        
+    @instruction([([0xDD, 0xCB, "-", 0x3E], ("IX", )),
+                  ([0xFD, 0xCB, "-", 0x3E], ("IY", ))],
+                 2, "SRL ({0}+{1:X}H)", 23)
+    def srl_i(instruction, registers, get_reads, data, i, d):
+        if get_reads:
+            return [registers[i] + get_8bit_twos_comp(d)]
+        else:
+            val = shift_right_logical(registers, data[0])
+            set_f5_f3(registers, val)
+            return [(registers[i] + get_8bit_twos_comp(d), val)]
+
+        
     @instruction([([0xED, 0x6F], ())],
                  2, "RLD", 18)
     def rld(instruction, registers, get_reads, data):
