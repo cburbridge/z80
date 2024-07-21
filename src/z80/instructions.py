@@ -163,6 +163,34 @@ class InstructionSet():
                   (0x64, ("H", "H")), (0x65, ("H", "L")),
                   (0x6F, ("L", "A")), (0x68, ("L", "B")), (0x69, ("L", "C")), (0x6A, ("L", "D")), (0x6B, ("L", "E")),
                   (0x6C, ("L", "H")), (0x6D, ("L", "L")),
+                  (0xDD7F, ("A", "A"), 8), (0xDD78, ("A", "B"), 8), (0xDD79, ("A", "C"), 8), (0xDD7A, ("A", "D"), 8), (0xDD7B, ("A", "E"), 8),
+                  (0xDD7C, ("A", "IXH"), 8), (0xDD7D, ("A", "IXL"), 8),
+                  (0xDD47, ("B", "A"), 8), (0xDD40, ("B", "B"), 8), (0xDD41, ("B", "C"), 8), (0xDD42, ("B", "D"), 8), (0xDD43, ("B", "E"), 8),
+                  (0xDD44, ("B", "IXH"), 8), (0xDD45, ("B", "IXL"), 8),
+                  (0xDD4F, ("C", "A"), 8), (0xDD48, ("C", "B"), 8), (0xDD49, ("C", "C"), 8), (0xDD4A, ("C", "D"), 8), (0xDD4B, ("C", "E"), 8),
+                  (0xDD4C, ("C", "IXH"), 8), (0xDD4D, ("C", "IXL"), 8),
+                  (0xDD57, ("D", "A"), 8), (0xDD50, ("D", "B"), 8), (0xDD51, ("D", "C"), 8), (0xDD52, ("D", "D"), 8), (0xDD53, ("D", "E"), 8),
+                  (0xDD54, ("D", "IXH"), 8), (0xDD55, ("D", "IXL"), 8),
+                  (0xDD5F, ("E", "A"), 8), (0xDD58, ("E", "B"), 8), (0xDD59, ("E", "C"), 8), (0xDD5A, ("E", "D"), 8), (0xDD5B, ("E", "E"), 8),
+                  (0xDD5C, ("E", "IXH"), 8), (0xDD5D, ("E", "IXL"), 8),
+                  (0xDD67, ("IXH", "A"), 8), (0xDD60, ("IXH", "B"), 8), (0xDD61, ("IXH", "C"), 8), (0xDD62, ("IXH", "D"), 8), (0xDD63, ("IXH", "E"), 8),
+                  (0xDD64, ("IXH", "IXH"), 8), (0xDD65, ("IXH", "IXL"), 8),
+                  (0xDD6F, ("IXL", "A"), 8), (0xDD68, ("IXL", "B"), 8), (0xDD69, ("IXL", "C"), 8), (0xDD6A, ("IXL", "D"), 8), (0xDD6B, ("IXL", "E"), 8),
+                  (0xDD6C, ("IXL", "IXH"), 8), (0xDD6D, ("IXL", "IXL"), 8),
+                  (0xFD7F, ("A", "A"), 8), (0xFD78, ("A", "B"), 8), (0xFD79, ("A", "C"), 8), (0xFD7A, ("A", "D"), 8), (0xFD7B, ("A", "E"), 8),
+                  (0xFD7C, ("A", "IYH"), 8), (0xFD7D, ("A", "IYL"), 8),
+                  (0xFD47, ("B", "A"), 8), (0xFD40, ("B", "B"), 8), (0xFD41, ("B", "C"), 8), (0xFD42, ("B", "D"), 8), (0xFD43, ("B", "E"), 8),
+                  (0xFD44, ("B", "IYH"), 8), (0xFD45, ("B", "IYL"), 8),
+                  (0xFD4F, ("C", "A"), 8), (0xFD48, ("C", "B"), 8), (0xFD49, ("C", "C"), 8), (0xFD4A, ("C", "D"), 8), (0xFD4B, ("C", "E"), 8),
+                  (0xFD4C, ("C", "IYH"), 8), (0xFD4D, ("C", "IYL"), 8),
+                  (0xFD57, ("D", "A"), 8), (0xFD50, ("D", "B"), 8), (0xFD51, ("D", "C"), 8), (0xFD52, ("D", "D"), 8), (0xFD53, ("D", "E"), 8),
+                  (0xFD54, ("D", "IYH"), 8), (0xFD55, ("D", "IYL"), 8),
+                  (0xFD5F, ("E", "A"), 8), (0xFD58, ("E", "B"), 8), (0xFD59, ("E", "C"), 8), (0xFD5A, ("E", "D"), 8), (0xFD5B, ("E", "E"), 8),
+                  (0xFD5C, ("E", "IYH"), 8), (0xFD5D, ("E", "IYL"), 8),
+                  (0xFD67, ("IYH", "A"), 8), (0xFD60, ("IYH", "B"), 8), (0xFD61, ("IYH", "C"), 8), (0xFD62, ("IYH", "D"), 8), (0xFD63, ("IYH", "E"), 8),
+                  (0xFD64, ("H", "H"), 8), (0xFD65, ("H", "L"), 8),
+                  (0xFD6F, ("IYL", "A"), 8), (0xFD68, ("IYL", "B"), 8), (0xFD69, ("IYL", "C"), 8), (0xFD6A, ("IYL", "D"), 8), (0xFD6B, ("IYL", "E"), 8),
+                  (0xFD6C, ("IYL", "IYH"), 8), (0xFD6D, ("IYL", "IYL"), 8),
                   (0xED47, ("I", "A"), 9), (0xED4F, ("R", "A"), 9),
                   ], 0, "LD {0}, {1}", 4)
     def ld_r_r_(instruction, registers, get_reads, data, r, r_):
@@ -208,7 +236,13 @@ class InstructionSet():
 
     @instruction([([0x3E, '-'], ("A", )), ([0x06, '-'], ("B", )), ([0x0E, '-'], ("C", )),
                   ([0x16, '-'], ("D", )), ([0x1E, '-'], ("E", )), ([0x26, '-'], ("H", )),
-                  ([0x2E, '-'], ("L", ))],
+                  ([0x2E, '-'], ("L", )),
+                  ([0xDD, 0x3E, '-'], ("A", ), 11), ([0xDD, 0x06, '-'], ("B", ), 11), ([0xDD, 0x0E, '-'], ("C", ), 11),
+                  ([0xDD, 0x16, '-'], ("D", ), 11), ([0xDD, 0x1E, '-'], ("E", ), 11), ([0xDD, 0x26, '-'], ("IXH", ), 11),
+                  ([0xDD, 0x2E, '-'], ("IXL", ), 11),
+                  ([0xFD, 0x3E, '-'], ("A", ), 11), ([0xFD, 0x06, '-'], ("B", ), 11), ([0xFD, 0x0E, '-'], ("C", ), 11),
+                  ([0xFD, 0x16, '-'], ("D", ), 11), ([0xFD, 0x1E, '-'], ("E", ), 11), ([0xFD, 0x26, '-'], ("IYH", ), 11),
+                  ([0xFD, 0x2E, '-'], ("IYL", ), 11)],
                  1, "LD {0}, {1:X}H", 7)
     def ld_r_n(instruction, registers, get_reads, data, r, n):
         if get_reads:
@@ -713,7 +747,13 @@ class InstructionSet():
     #---- ADD ----
     @instruction([(0x87, ("A",)), (0x80, ("B",)), (0x81, ("C",)),
                   (0x82, ("D",)), (0x83, ("E",)), (0x84, ("H",)),
-                  (0x85, ("L",))], 0, "ADD A, {0}", 4)
+                  (0x85, ("L",)),
+                  (0xDD87, ("A",), 8), (0xDD80, ("B",), 8), (0xDD81, ("C",), 8),
+                  (0xDD82, ("D",), 8), (0xDD83, ("E",), 8), (0xDD84, ("IXH",), 8),
+                  (0xDD85, ("IXL",), 8),
+                  (0xFD87, ("A",), 8), (0xFD80, ("B",), 8), (0xFD81, ("C",), 8),
+                  (0xFD82, ("D",), 8), (0xFD83, ("E",), 8), (0xFD84, ("IYH",), 8),
+                  (0xFD85, ("IYL",), 8)], 0, "ADD A, {0}", 4)
     def add_a_r(instruction, registers, get_reads, data, r):
         if get_reads:
             return []
@@ -750,7 +790,13 @@ class InstructionSet():
     #---- ADC ----
     @instruction([(0x8f, ("A",)), (0x88, ("B",)), (0x89, ("C",)),
                   (0x8A, ("D",)), (0x8B, ("E",)), (0x8C, ("H",)),
-                  (0x8D, ("L",))], 0, "ADC A, {0}", 4)
+                  (0x8D, ("L",)),
+                  (0xDD8f, ("A",), 8), (0xDD88, ("B",), 8), (0xDD89, ("C",), 8),
+                  (0xDD8A, ("D",), 8), (0xDD8B, ("E",), 8), (0xDD8C, ("IXH",), 8),
+                  (0xDD8D, ("IXL",), 8),
+                  (0xFD8f, ("A",), 8), (0xFD88, ("B",), 8), (0xFD89, ("C",), 8),
+                  (0xFD8A, ("D",), 8), (0xFD8B, ("E",), 8), (0xFD8C, ("IYH",), 8),
+                  (0xFD8D, ("IYL",), 8)], 0, "ADC A, {0}", 4)
     def adc_a_r(instruction, registers, get_reads, data, r):
         if get_reads:
             return []
@@ -787,7 +833,13 @@ class InstructionSet():
     #---- SUB ----
     @instruction([(0x97, ("A",)), (0x90, ("B",)), (0x91, ("C",)),
                   (0x92, ("D",)), (0x93, ("E",)), (0x94, ("H",)),
-                  (0x95, ("L",))], 0, "SUB A, {0}", 4)
+                  (0x95, ("L",)),
+                  (0xDD97, ("A",), 8), (0xDD90, ("B",), 8), (0xDD91, ("C",), 8),
+                  (0xDD92, ("D",), 8), (0xDD93, ("E",), 8), (0xDD94, ("IXH",), 8),
+                  (0xDD95, ("IXL",), 8),
+                  (0xFD97, ("A",), 8), (0xFD90, ("B",), 8), (0xFD91, ("C",), 8),
+                  (0xFD92, ("D",), 8), (0xFD93, ("E",), 8), (0xFD94, ("IYH",), 8),
+                  (0xFD95, ("IYL",), 8)], 0, "SUB A, {0}", 4)
     def sub_a_r(instruction, registers, get_reads, data, r):
         if get_reads:
             return []
@@ -824,7 +876,13 @@ class InstructionSet():
     #---- SBC ----
     @instruction([(0x9f, ("A",)), (0x98, ("B",)), (0x99, ("C",)),
                   (0x9A, ("D",)), (0x9B, ("E",)), (0x9C, ("H",)),
-                  (0x9D, ("L",))], 0, "SBC A, {0}", 4)
+                  (0x9D, ("L",)),
+                  (0xDD9f, ("A",), 8), (0xDD98, ("B",), 8), (0xDD99, ("C",), 8),
+                  (0xDD9A, ("D",), 8), (0xDD9B, ("E",), 8), (0xDD9C, ("IXH",), 8),
+                  (0xDD9D, ("IXL",), 8),
+                  (0xFD9f, ("A",), 8), (0xFD98, ("B",), 8), (0xFD99, ("C",), 8),
+                  (0xFD9A, ("D",), 8), (0xFD9B, ("E",), 8), (0xFD9C, ("IYH",), 8),
+                  (0xFD9D, ("IYL",), 8)], 0, "SBC A, {0}", 4)
     def sbc_a_r(instruction, registers, get_reads, data, r):
         if get_reads:
             return []
@@ -861,7 +919,13 @@ class InstructionSet():
     #---- AND ----
     @instruction([(0xa7, ("A",)), (0xa0, ("B",)), (0xa1, ("C",)),
                   (0xa2, ("D",)), (0xa3, ("E",)), (0xa4, ("H",)),
-                  (0xa5, ("L",))], 0, "AND {0}", 4)
+                  (0xa5, ("L",)),
+                  (0xDDa7, ("A",), 8), (0xDDa0, ("B",), 8), (0xDDa1, ("C",), 8),
+                  (0xDDa2, ("D",), 8), (0xDDa3, ("E",), 8), (0xDDa4, ("IXH",), 8),
+                  (0xDDa5, ("IXL",), 8),
+                  (0xFDa7, ("A",), 8), (0xFDa0, ("B",), 8), (0xFDa1, ("C",), 8),
+                  (0xFDa2, ("D",), 8), (0xFDa3, ("E",), 8), (0xFDa4, ("IYH",), 8),
+                  (0xFDa5, ("IYL",), 8)], 0, "AND {0}", 4)
     def and_a_r(instruction, registers, get_reads, data, r):
         if get_reads:
             return []
@@ -899,7 +963,13 @@ class InstructionSet():
     #---- OR ----
     @instruction([(0xb7, ("A",)), (0xb0, ("B",)), (0xb1, ("C",)),
                   (0xb2, ("D",)), (0xb3, ("E",)), (0xb4, ("H",)),
-                  (0xb5, ("L",))], 0, "OR {0}", 4)
+                  (0xb5, ("L",)),
+                  (0xDDb7, ("A",), 8), (0xDDb0, ("B",), 8), (0xDDb1, ("C",), 8),
+                  (0xDDb2, ("D",), 8), (0xDDb3, ("E",), 8), (0xDDb4, ("IXH",), 8),
+                  (0xDDb5, ("IXL",), 8),
+                  (0xFDb7, ("A",), 8), (0xFDb0, ("B",), 8), (0xFDb1, ("C",), 8),
+                  (0xFDb2, ("D",), 8), (0xFDb3, ("E",), 8), (0xFDb4, ("IYH",), 8),
+                  (0xFDb5, ("IYL",), 8)], 0, "OR {0}", 4)
     def or_a_r(instruction, registers, get_reads, data, r):
         if get_reads:
             return []
@@ -937,7 +1007,13 @@ class InstructionSet():
     #---- XOR ----
     @instruction([(0xaf, ("A",)), (0xa8, ("B",)), (0xa9, ("C",)),
                   (0xaa, ("D",)), (0xab, ("E",)), (0xac, ("H",)),
-                  (0xad, ("L",))], 0, "XOR {0}", 4)
+                  (0xad, ("L",)),
+                  (0xDDaf, ("A",), 8), (0xDDa8, ("B",), 8), (0xDDa9, ("C",), 8),
+                  (0xDDaa, ("D",), 8), (0xDDab, ("E",), 8), (0xDDac, ("IXH",), 8),
+                  (0xDDad, ("IXL",), 8),
+                  (0xFDaf, ("A",), 8), (0xFDa8, ("B",), 8), (0xFDa9, ("C",), 8),
+                  (0xFDaa, ("D",), 8), (0xFDab, ("E",), 8), (0xFDac, ("IYH",), 8),
+                  (0xFDad, ("IYL",), 8)], 0, "XOR {0}", 4)
     def xor_a_r(instruction, registers, get_reads, data, r):
         if get_reads:
             return []
@@ -975,7 +1051,13 @@ class InstructionSet():
     #---- CP ----
     @instruction([(0xbf, ("A",)), (0xb8, ("B",)), (0xb9, ("C",)),
                   (0xba, ("D",)), (0xbb, ("E",)), (0xbc, ("H",)),
-                  (0xbd, ("L",))], 0, "CP {0}", 4)
+                  (0xbd, ("L",)),
+                  (0xDDbf, ("A",), 8), (0xDDb8, ("B",), 8), (0xDDb9, ("C",), 8),
+                  (0xDDba, ("D",), 8), (0xDDbb, ("E",), 8), (0xDDbc, ("IXH",), 8),
+                  (0xDDbd, ("IXL",), 8),
+                  (0xFDbf, ("A",), 8), (0xFDb8, ("B",), 8), (0xFDb9, ("C",), 8),
+                  (0xFDba, ("D",), 8), (0xFDbb, ("E",), 8), (0xFDbc, ("IYH",), 8),
+                  (0xFDbd, ("IYL",), 8)], 0, "CP {0}", 4)
     def cp_a_r(instruction, registers, get_reads, data, r):
         if get_reads:
             return []
@@ -1016,7 +1098,13 @@ class InstructionSet():
     #---- INC s ----    
     @instruction([(0x3c, ("A",)), (0x04, ("B",)), (0x0c, ("C",)),
                   (0x14, ("D",)), (0x1c, ("E",)), (0x24, ("H",)),
-                  (0x2c, ("L",))], 0, "INC {0}", 4)
+                  (0x2c, ("L",)),
+                  (0xDD3c, ("A",), 8), (0xDD04, ("B",), 8), (0xDD0c, ("C",), 8),
+                  (0xDD14, ("D",), 8), (0xDD1c, ("E",), 8), (0xDD24, ("IXH",), 8),
+                  (0xDD2c, ("IXL",), 8),
+                  (0xFD3c, ("A",), 8), (0xFD04, ("B",), 8), (0xFD0c, ("C",), 8),
+                  (0xFD14, ("D",), 8), (0xFD1c, ("E",), 8), (0xFD24, ("IYH",), 8),
+                  (0xFD2c, ("IYL",), 8)], 0, "INC {0}", 4)
     def inc_r(instruction, registers, get_reads, data, r):
         if get_reads:
             return []
@@ -1045,7 +1133,13 @@ class InstructionSet():
     #---- DEC s ----
     @instruction([(0x3d, ("A",)), (0x05, ("B",)), (0x0d, ("C",)),
                   (0x15, ("D",)), (0x1d, ("E",)), (0x25, ("H",)),
-                  (0x2d, ("L",))], 0, "DEC {0}", 4)
+                  (0x2d, ("L",)),
+                  (0xDD3d, ("A",), 8), (0xDD05, ("B",), 8), (0xDD0d, ("C",), 8),
+                  (0xDD15, ("D",), 8), (0xDD1d, ("E",), 8), (0xDD25, ("IXH",), 8),
+                  (0xDD2d, ("IXL",), 8),
+                  (0xFD3d, ("A",), 8), (0xFD05, ("B",), 8), (0xFD0d, ("C",), 8),
+                  (0xFD15, ("D",), 8), (0xFD1d, ("E",), 8), (0xFD25, ("IYH",), 8),
+                  (0xFD2d, ("IYL",), 8)], 0, "DEC {0}", 4)
     def dec_r(instruction, registers, get_reads, data, r):
         if get_reads:
             return []
@@ -1528,8 +1622,43 @@ class InstructionSet():
             new = shift_left(registers, data[0])
             set_f5_f3(registers, new)
             return [(registers[i] + get_8bit_twos_comp(d), new)]
+
+
+    # SLL m    
+    @instruction([(0xCB37, ("A", )), (0xCB30, ("B", )), (0xCB31, ("C", )), (0xCB32, ("D", )),
+                  (0xCB33, ("E", )), (0xCB34, ("H", )), (0xCB35, ("L", ))],
+                 0, "SLL {0}", 8)
+    def sll_r(instruction, registers, get_reads, data, r):
+        if get_reads:
+            return []
+        else:
+            registers[r] = shift_left_logical(registers, registers[r])
+            set_f5_f3(registers, registers[r])
+            return []
         
+    @instruction([(0xCB36, ( ))],
+                 0, "SLL (HL)", 15)
+    def sll_hl_(instruction, registers, get_reads, data):
+        if get_reads:
+            return [registers.HL]
+        else:
+            val = shift_left_logical(registers, data[0])
+            set_f5_f3(registers, val)
+            return [(registers.HL, val)]
+
         
+    @instruction([([0xDD, 0xCB, '-', 0x36], ("IX", )),
+                  ([0xFD, 0xCB, '-', 0x36], ("IY", ))],
+                 2, "SLL ({0}+{1:X}H)", 23)
+    def sll_i_d(instruction, registers, get_reads, data, i, d):
+        if get_reads:
+            return [registers[i] + get_8bit_twos_comp(d)]
+        else:
+            new = shift_left_logical(registers, data[0])
+            set_f5_f3(registers, new)
+            return [(registers[i] + get_8bit_twos_comp(d), new)]
+
+
     # SRA m
     @instruction([([0xCB, 0x28], ("B", )), ([0xCB, 0x29], ("C", )), ([0xCB, 0x2A], ("D", )),
                   ([0xCB, 0x2B], ("E", )), ([0xCB, 0x2C], ("H", )), ([0xCB, 0x2D], ("L", )),
