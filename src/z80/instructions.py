@@ -1774,7 +1774,7 @@ class InstructionSet():
             return [registers.HL]
         else:
             a = (data[0] >> 4) | (registers.A & 0xF0)
-            hl = ((registers.HL << 4) | (registers.A & 0x0f)) & 0xFF
+            hl = ((data[0] << 4) | (registers.A & 0x0f)) & 0xFF
             registers.A = a
             registers.condition.S = a >> 7
             registers.condition.Z = a == 0
@@ -1791,7 +1791,7 @@ class InstructionSet():
             return [registers.HL]
         else:
             a = (data[0] & 0x0F) | (registers.A & 0xF0)
-            hl = ((registers.HL >> 4) | (registers.A << 4))  & 0xFF
+            hl = ((data[0] >> 4) | (registers.A << 4))  & 0xFF
             registers.A = a
             registers.condition.S = a >> 7
             registers.condition.Z = a == 0
