@@ -188,7 +188,7 @@ class InstructionSet():
                   (0xFD5F, ("E", "A"), 8), (0xFD58, ("E", "B"), 8), (0xFD59, ("E", "C"), 8), (0xFD5A, ("E", "D"), 8), (0xFD5B, ("E", "E"), 8),
                   (0xFD5C, ("E", "IYH"), 8), (0xFD5D, ("E", "IYL"), 8),
                   (0xFD67, ("IYH", "A"), 8), (0xFD60, ("IYH", "B"), 8), (0xFD61, ("IYH", "C"), 8), (0xFD62, ("IYH", "D"), 8), (0xFD63, ("IYH", "E"), 8),
-                  (0xFD64, ("H", "H"), 8), (0xFD65, ("H", "L"), 8),
+                  (0xFD64, ("IYH", "IYH"), 8), (0xFD65, ("IYH", "IYL"), 8),
                   (0xFD6F, ("IYL", "A"), 8), (0xFD68, ("IYL", "B"), 8), (0xFD69, ("IYL", "C"), 8), (0xFD6A, ("IYL", "D"), 8), (0xFD6B, ("IYL", "E"), 8),
                   (0xFD6C, ("IYL", "IYH"), 8), (0xFD6D, ("IYL", "IYL"), 8),
                   (0xED47, ("I", "A"), 9), (0xED4F, ("R", "A"), 9),
@@ -688,9 +688,9 @@ class InstructionSet():
             registers.condition.PV = registers.BC != 0
             # F3 is bit 3 of (A - (HL) - H), H 
             # F5 is bit 1 of (A - (HL) - H), H a
-            f5f3 = registers.A - data[0] -  registers.H
-            registers.condition.F5 = f5f3 & 0x01
-            registers.condition.F3 = f5f3 & 0x04
+            f5f3 = registers.A - data[0] -  registers.condition.H
+            registers.condition.F5 = f5f3 & 0x02
+            registers.condition.F3 = f5f3 & 0x08
             return []
 
     @instruction([(0xEDB1, ())], 0, "CPIR", 16)
@@ -709,6 +709,9 @@ class InstructionSet():
             else:
                 instruction.tstates = 16
             registers.condition.PV = registers.BC != 0
+            f5f3 = registers.A - data[0] -  registers.condition.H
+            registers.condition.F5 = f5f3 & 0x02
+            registers.condition.F3 = f5f3 & 0x08
             return []
 
     @instruction([(0xEDA9, ())], 0, "CPD", 16)
@@ -721,6 +724,9 @@ class InstructionSet():
 
             subtract8(registers.A, data[0], registers)
             registers.condition.PV = registers.BC != 0
+            f5f3 = registers.A - data[0] -  registers.condition.H
+            registers.condition.F5 = f5f3 & 0x02
+            registers.condition.F3 = f5f3 & 0x08
             return []
 
     @instruction([(0xEDB9, ())], 0, "CPDR", 16)
@@ -739,6 +745,9 @@ class InstructionSet():
             else:
                 instruction.tstates = 16
             registers.condition.PV = registers.BC != 0
+            f5f3 = registers.A - data[0] -  registers.condition.H
+            registers.condition.F5 = f5f3 & 0x02
+            registers.condition.F3 = f5f3 & 0x08
             return []
 
     #----------------------------------------------------------------------
@@ -1127,7 +1136,7 @@ class InstructionSet():
             return [registers[i] + get_8bit_twos_comp(d)]
         else:
             new = add8(data[0], 1, registers, C=False )
-            return [(registers.HL, new)]
+            return [(registers[i] + get_8bit_twos_comp(d), new)]
 
 
     #---- DEC s ----
