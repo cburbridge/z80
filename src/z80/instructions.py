@@ -540,8 +540,8 @@ class InstructionSet():
             ix = registers[i]
             registers[i] = data[1] << 8 | data[0]
 
-            return [(registers.SP, registers[i] & 255),
-                    (registers.SP + 1, registers[i] >> 8)]
+            return [(registers.SP, ix & 0xFF),
+                    (registers.SP + 1, ix >> 8)]
 
     @instruction([(0xEDA0, ())], 0, "LDI", 16)
     def ldi(instruction, registers, get_reads, data):
@@ -2189,11 +2189,12 @@ class InstructionSet():
             address = registers.C | (registers.B << 8)
             return [address+0x10000]
         else:
+            hl = registers.HL
             registers.B = dec8(registers.B)
-            registers.HL = inc16(registers.HL)
+            registers.HL = inc16(hl)
             registers.condition.N = 1
             registers.condition.Z = registers.B == 0
-            return [(dec16(registers.HL), data[0])]
+            return [(hl, data[0])]
         
         
     @instruction([([0xed, 0xb2], ( )) ] ,
@@ -2203,17 +2204,18 @@ class InstructionSet():
             address = registers.C | (registers.B << 8)
             return [address+0x10000]
         else:
+            hl = registers.HL
             registers.B = dec8(registers.B)
-            registers.HL = inc16(registers.HL)
+            registers.HL = inc16(hl)
             registers.condition.N = 1
             registers.condition.Z = registers.B == 0
-            if registers.B == 0:
+            if registers.B != 0:
                 dec16(registers.PC)
                 dec16(registers.PC)
-                instruction.tstates = 16
-            else:
                 instruction.tstates = 21
-            return [(dec16(registers.HL), data[0])]
+            else:
+                instruction.tstates = 16
+            return [(hl, data[0])]
         
     @instruction([([0xed, 0xaa], ( )) ] ,
                  2, "IND", 16)
@@ -2222,11 +2224,12 @@ class InstructionSet():
             address = registers.C | (registers.B << 8)
             return [address+0x10000]
         else:
+            hl = registers.HL
             registers.B = dec8(registers.B)
-            registers.HL = dec16(registers.HL)
+            registers.HL = dec16(hl)
             registers.condition.N = 1
             registers.condition.Z = registers.B == 0
-            return [(dec16(registers.HL), data[0])]
+            return [(hl, data[0])]
         
         
     @instruction([([0xed, 0xba], ( )) ] ,
@@ -2236,17 +2239,18 @@ class InstructionSet():
             address = registers.C | (registers.B << 8)
             return [address+0x10000]
         else:
+            hl = registers.HL
             registers.B = dec8(registers.B)
-            registers.HL = dec16(registers.HL)
+            registers.HL = dec16(hl)
             registers.condition.N = 1
             registers.condition.Z = registers.B == 0
-            if not registers.B == 0:
+            if registers.B != 0:
                 dec16(registers.PC)
                 dec16(registers.PC)
                 instruction.tstates = 21
             else:
                 instruction.tstates = 16
-            return [(dec16(registers.HL), data[0])]
+            return [(hl, data[0])]
         
     @instruction([([0xD3, '-'], ( )) ] ,
                  2, "OUT ({0:X}H), A", 11)
@@ -2296,7 +2300,7 @@ class InstructionSet():
             registers.HL = inc16(registers.HL)
             registers.condition.N = 1
             registers.condition.Z = registers.B == 0
-            if not registers.B == 0:
+            if registers.B != 0:
                 dec16(registers.PC)
                 dec16(registers.PC)
                 instruction.tstates = 21
@@ -2330,7 +2334,7 @@ class InstructionSet():
             registers.HL = dec16(registers.HL)
             registers.condition.N = 1
             registers.condition.Z = registers.B == 0
-            if not registers.B == 0:
+            if registers.B != 0:
                 dec16(registers.PC)
                 dec16(registers.PC)
                 instruction.tstates = 21
