@@ -31,6 +31,7 @@ class Instruction(object):
         self.n_operands = ins.n_operands
         self.tstates = ins.tstates
         self.executer = executer
+        self.incrementR = 1
 
     def get_read_list(self, operands=()):
         return self.executer(*((self, self.registers, True, None) + self.args +
@@ -99,7 +100,11 @@ class InstructionSet():
                                 d = d[0]
                         else:
                             d[i] = {}
-                            d = d[i]
+                            d = d[i]                    
+                    if (opargs[0][0] in [0xCB, 0xED, 0xDD, 0xFD]):
+                        if (opargs[0][0] in [0xDD, 0xFD]) & (opargs[0][1] == 0xCB): ff.incrementR = 3
+                        else: ff.incrementR = 2
+                    else: ff.incrementR = 1
                     if opargs[0][-1] == "-":
                         ff.operands.append(n+1)
                         for i in range(256):
@@ -134,7 +139,7 @@ class InstructionSet():
         else:
             ops = tuple(self._instruction_composer)
             self._instruction_composer = []
-            self._registers.R = ((self._registers.R + 1) & 0x7F) | (self._registers.R & 0x80)
+            self._registers.R = ((self._registers.R + q.incrementR) & 0x7F) | (self._registers.R & 0x80)
 #            print q, ops
             return q, ops
         
@@ -205,9 +210,6 @@ class InstructionSet():
         if get_reads:
             return []
         else:
-            if r == "R":
-                # Add 2 to refresh. TODO: fix
-                registers[r] += 2
             registers.A = registers[r]
             registers.condition.S = registers[r] >> 7
             registers.condition.Z = registers[r] == 0
