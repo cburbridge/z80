@@ -449,7 +449,8 @@ class InstructionSet():
             return []
         else:
             stack = registers.SP
-            registers.SP -= 2
+            registers.SP = dec16(registers.SP)
+            registers.SP = dec16(registers.SP)
             return [(stack - 1, registers[q]), (stack - 2, registers[q2])]
 
 
@@ -460,7 +461,8 @@ class InstructionSet():
             return []
         else:
             stack = registers.SP
-            registers.SP -= 2
+            registers.SP = dec16(registers.SP)
+            registers.SP = dec16(registers.SP)
             return [(stack - 1, registers[i] >> 8), (stack - 2, registers[i] & 255)]
 
 
@@ -471,7 +473,8 @@ class InstructionSet():
             stack = registers.SP
             return [stack, stack + 1]
         else:
-            registers.SP += 2
+            registers.SP = inc16(registers.SP)
+            registers.SP = inc16(registers.SP)
             registers[q2] = data[0]
             registers[q] = data[1]
             return []
@@ -484,7 +487,8 @@ class InstructionSet():
             stack = registers.SP
             return [stack, stack + 1]
         else:
-            registers.SP += 2
+            registers.SP = inc16(registers.SP)
+            registers.SP = inc16(registers.SP)
             registers[i] = data[1] << 8 | data[0]
             return []
 
@@ -600,7 +604,8 @@ class InstructionSet():
 
             registers.condition.H = 0
             if bc != 0:
-                registers.PC -= 2
+                registers.PC = dec16(registers.PC)
+                registers.PC = dec16(registers.PC)
                 instruction.tstates = 21
             else:
                 instruction.tstates = 16
@@ -666,7 +671,8 @@ class InstructionSet():
 
             registers.condition.H = 0
             if bc != 0:
-                registers.PC -= 2
+                registers.PC = dec16(registers.PC)
+                registers.PC = dec16(registers.PC)
                 instruction.tstates = 21
             else:
                 instruction.tstates = 16
@@ -706,7 +712,8 @@ class InstructionSet():
             res = subtract8(registers.A, data[0], registers)
 
             if registers.BC != 0 and res != 0:
-                registers.PC -= 2
+                registers.PC = dec16(registers.PC)
+                registers.PC = dec16(registers.PC)
                 instruction.tstates = 21
             else:
                 instruction.tstates = 16
@@ -742,7 +749,8 @@ class InstructionSet():
             res = subtract8(registers.A, data[0], registers)
 
             if registers.BC != 0 and res != 0:
-                registers.PC -= 2
+                registers.PC = dec16(registers.PC)
+                registers.PC = dec16(registers.PC)
                 instruction.tstates = 21
             else:
                 instruction.tstates = 16
@@ -1303,7 +1311,7 @@ class InstructionSet():
             return []
         else:
             registers.HALT = True
-            registers.PC -= 1
+            registers.PC = dec16(registers.PC)
             return []
 
 
@@ -2064,8 +2072,8 @@ class InstructionSet():
             registers.SP = dec16(registers.SP)
             registers.SP = dec16(registers.SP)
             registers.PC = n2 << 8 | n
-            return [(sp - 1, pc >> 8),
-                    (sp - 2, pc & 0xFF)]
+            return [(dec16(sp), pc >> 8),
+                    (dec16(dec16(sp)), pc & 0xFF)]
         
     @instruction([([0xC4+offset, '-', '-'], (reg, reg_name, val))
                   for offset, reg_name, reg, val in conditions],
@@ -2081,8 +2089,8 @@ class InstructionSet():
                 registers.SP = dec16(registers.SP)
                 registers.SP = dec16(registers.SP)
                 registers.PC = n2 << 8 | n
-                return [(sp - 1, pc >> 8),
-                        (sp - 2, pc & 0xFF)]
+                return [(dec16(sp), pc >> 8),
+                        (dec16(dec16(sp)), pc & 0xFF)]
             else:
                 instruction.tstates = 10
                 return []
@@ -2151,8 +2159,8 @@ class InstructionSet():
             registers.SP = dec16(registers.SP)
             registers.SP = dec16(registers.SP)
             registers.PC = p
-            return [(sp - 1, pc >> 8),
-                    (sp - 2, pc & 0xFF)]
+            return [(dec16(sp), pc >> 8),
+                    (dec16(dec16(sp)), pc & 0xFF)]
         
     #--------------------------------------------------------------------
     # Input Output Group
