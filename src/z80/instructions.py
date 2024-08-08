@@ -950,7 +950,6 @@ class InstructionSet():
             return []
         else:
             a_and_n(registers, registers[r])
-            registers.condition.S = (registers.A >> 7)
             return []
 
     @instruction([([0xe6, '-'], ())], 1, "AND {0:X}H", 7)
@@ -994,7 +993,6 @@ class InstructionSet():
             return []
         else:
             a_or_n(registers, registers[r])
-            registers.condition.S = (registers.A >> 7)
             return []
 
     @instruction([([0xf6, '-'], ())], 1, "OR {0:X}H", 7)
@@ -1038,7 +1036,6 @@ class InstructionSet():
             return []
         else:
             a_xor_n(registers, registers[r])
-            registers.condition.S = (registers.A >> 7)
             return []
 
     @instruction([([0xee, '-'], ())], 1, "XOR {0:X}H", 7)
@@ -1273,7 +1270,10 @@ class InstructionSet():
         if get_reads:
             return []
         else:
-            registers.A = subtract8_check_overflow(0, registers.A, registers)
+            a = registers.A
+            registers.A = subtract8(0, a, registers)
+            registers.condition.PV = (a == 0x80)
+            registers.condition.C = (a != 0x00)
             return []
 
     @instruction([(0x3F, ())], 0, "CCF", 4)
@@ -1835,12 +1835,12 @@ class InstructionSet():
             return []
         else:
             # print "Test bit ", bit
-            registers.condition.Z = (registers[reg] & (0x01 << bit)) == 0
+            val = registers[reg] & (0x01 << bit)
+            registers.condition.Z = (val == 0)
             registers.condition.H = 1
             registers.condition.N = 0
-            registers.condition.PV = registers.condition.Z
-            if bit == 7:
-                registers.condition.S = (registers[reg] & (0x01 << bit))
+            registers.condition.PV = registers.condition.Z            
+            registers.condition.S = (val >> 7)
             #if bit == 5:
                 #registers.condition.F5 = (registers[reg] & (0x01 << bit))
             #if bit == 3:
@@ -1854,12 +1854,12 @@ class InstructionSet():
         if get_reads:
             return [registers.HL]
         else:
-            registers.condition.Z = (data[0] & (0x01 << bit)) == 0
+            val = data[0] & (0x01 << bit)
+            registers.condition.Z = (val == 0)
             registers.condition.H = 1
             registers.condition.N = 0
             registers.condition.PV = registers.condition.Z
-            if bit == 7:
-                registers.condition.S = (data[0] & (0x01 << bit))
+            registers.condition.S = (val >> 7)
             set_f5_f3(registers, data[0])
             return []
 
@@ -1869,14 +1869,12 @@ class InstructionSet():
         if get_reads:
             return [registers[i]+get_8bit_twos_comp(d)]
         else:
-            registers.condition.Z = (data[0] & (0x01 << bit)) == 0
+            val = data[0] & (0x01 << bit)
+            registers.condition.Z = (val == 0)
             registers.condition.H = 1
             registers.condition.N = 0
             registers.condition.PV = registers.condition.Z
-            if bit == 7:
-                registers.condition.S = (data[0] & (0x01 << bit))
-            else:
-                registers.condition.S = 0
+            registers.condition.S = (val >> 7)
             set_f5_f3(registers, (registers[i]+get_8bit_twos_comp(d)) >> 8)
             return []
 
