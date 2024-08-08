@@ -2220,8 +2220,8 @@ class InstructionSet():
             registers.condition.N = 1
             registers.condition.Z = registers.B == 0
             if registers.B != 0:
-                dec16(registers.PC)
-                dec16(registers.PC)
+                registers.PC = dec16(registers.PC)
+                registers.PC = dec16(registers.PC)
                 instruction.tstates = 21
             else:
                 instruction.tstates = 16
@@ -2255,8 +2255,8 @@ class InstructionSet():
             registers.condition.N = 1
             registers.condition.Z = registers.B == 0
             if registers.B != 0:
-                dec16(registers.PC)
-                dec16(registers.PC)
+                registers.PC = dec16(registers.PC)
+                registers.PC = dec16(registers.PC)
                 instruction.tstates = 21
             else:
                 instruction.tstates = 16
@@ -2311,8 +2311,8 @@ class InstructionSet():
             registers.condition.N = 1
             registers.condition.Z = registers.B == 0
             if registers.B != 0:
-                dec16(registers.PC)
-                dec16(registers.PC)
+                registers.PC = dec16(registers.PC)
+                registers.PC = dec16(registers.PC)
                 instruction.tstates = 21
             else:
                 instruction.tstates = 16
@@ -2345,8 +2345,8 @@ class InstructionSet():
             registers.condition.N = 1
             registers.condition.Z = registers.B == 0
             if registers.B != 0:
-                dec16(registers.PC)
-                dec16(registers.PC)
+                registers.PC = dec16(registers.PC)
+                registers.PC = dec16(registers.PC)
                 instruction.tstates = 21
             else:
                 instruction.tstates = 16
