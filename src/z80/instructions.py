@@ -2194,7 +2194,7 @@ class InstructionSet():
                  2, "INI", 16)
     def ini(instruction, registers, get_reads, data):
         if get_reads:
-            address = registers.C | (registers.B << 8)
+            address = registers.C | (dec8(registers.B) << 8)
             return [address+0x10000]
         else:
             hl = registers.HL
@@ -2209,7 +2209,7 @@ class InstructionSet():
                  2, "INIR", 21)
     def inir(instruction, registers, get_reads, data):
         if get_reads:
-            address = registers.C | (registers.B << 8)
+            address = registers.C | (dec8(registers.B) << 8)
             return [address+0x10000]
         else:
             hl = registers.HL
@@ -2229,7 +2229,7 @@ class InstructionSet():
                  2, "IND", 16)
     def ind(instruction, registers, get_reads, data):
         if get_reads:
-            address = registers.C | (registers.B << 8)
+            address = registers.C | (dec8(registers.B) << 8)
             return [address+0x10000]
         else:
             hl = registers.HL
@@ -2244,7 +2244,7 @@ class InstructionSet():
                  2, "INDR", 21)
     def indr(instruction, registers, get_reads, data):
         if get_reads:
-            address = registers.C | (registers.B << 8)
+            address = registers.C | (dec8(registers.B) << 8)
             return [address+0x10000]
         else:
             hl = registers.HL
@@ -2315,7 +2315,7 @@ class InstructionSet():
             else:
                 instruction.tstates = 16
                 
-            return [(registers.BC+0x10000, data[0])]
+            return [(address+0x10000, data[0])]
         
     @instruction([([0xed, 0xab], ( )) ] ,
                  2, "OUTD", 16)
@@ -2328,7 +2328,7 @@ class InstructionSet():
             registers.HL = dec16(registers.HL)
             registers.condition.N = 1
             registers.condition.Z = registers.B == 0
-            return [(registers.BC+0x10000, data[0])]
+            return [(address+0x10000, data[0])]
         
         
     @instruction([([0xed, 0xbb], ( )) ] ,
@@ -2349,4 +2349,4 @@ class InstructionSet():
             else:
                 instruction.tstates = 16
                 
-            return [(registers.BC+0x10000, data[0])]
+            return [(address+0x10000, data[0])]
