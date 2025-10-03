@@ -32,7 +32,10 @@ cd src
 PYTHONPATH=`pwd`:$PYTHONPATH python ../fuse_tests/tests.py
 ```
 
+The unit tests use and require [GNU z80asm][z80asm]. For non-Windows machines, you can install it using the package manager specific to your platform. For Windows, a 32-bit binary build of z80asm-1.8 is provided for your convenience.
+
 ### Missing and todo
+
 - Most undocumented opcodes
 - Undocumented flags for `CPI` and `CPIR`.
 
@@ -44,3 +47,7 @@ PYTHONPATH=`pwd`:$PYTHONPATH python ../fuse_tests/tests.py
 
 ### License
 Public domain; do what you like.
+
+
+
+[z80asm]: https://savannah.nongnu.org/projects/z80asm
